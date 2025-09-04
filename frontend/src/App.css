@@ -1,0 +1,46 @@
+/* General App Layout */
+.App {
+max-width: 1200px;
+margin: 0 auto;
+padding: 20px;
+text-align: center;
+}
+
+/* Main content area */
+main {
+padding-top: 20px;
+}
+
+/* Navigation Bar Styling */
+.navbar {
+background-color: #ffffff;
+padding: 15px 30px;
+border-radius: 10px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+margin-bottom: 40px;
+}
+
+.nav-list {
+list-style-type: none;
+margin: 0;
+padding: 0;
+display: flex;
+justify-content: flex-end; /* Aligns links to the right */
+align-items: center;
+gap: 20px;
+}
+
+.nav-link {
+text-decoration: none;
+color: #555;
+font-weight: 500;
+font-size: 1rem;
+padding: 8px 16px;
+border-radius: 8px;
+transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.nav-link:hover {
+background-color: #f0f0f0;
+color: #000;
+}

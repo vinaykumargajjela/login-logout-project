@@ -1,0 +1,53 @@
+.dashboard-container {
+max-width: 600px;
+margin: 40px auto;
+padding: 30px;
+background-color: #ffffff;
+border-radius: 12px;
+box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+text-align: center;
+animation: fadeIn 0.5s ease-in-out;
+}
+
+.dashboard-container h2 {
+color: #333;
+}
+
+.dashboard-container p {
+font-size: 1.2rem;
+color: #555;
+margin-bottom: 30px;
+}
+
+.dashboard-container span {
+font-weight: 600;
+color: #007bff;
+}
+
+.logout-button {
+padding: 12px 25px;
+background-color: #dc3545;
+color: white;
+border: none;
+border-radius: 8px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+background-color: #c82333;
+transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+from {
+opacity: 0;
+transform: translateY(-10px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
