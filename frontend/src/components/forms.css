@@ -1,16 +1,16 @@
 .form-container {
 display: flex;
 justify-content: center;
-align-items: flex-start;
-width: 100%;
-padding-top: 20px;
+align-items: center;
+flex-grow: 1;
+padding: 20px;
 }
 
 .auth-form {
 background-color: #ffffff;
 padding: 40px;
 border-radius: 12px;
-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 width: 100%;
 max-width: 400px;
 }
@@ -20,13 +20,13 @@ text-align: center;
 margin-top: 0;
 margin-bottom: 10px;
 color: #333;
-font-weight: 600;
+font-size: 1.8rem;
 }
 
 .form-subtitle {
 text-align: center;
-color: #6c757d;
 margin-bottom: 30px;
+color: #6c757d;
 }
 
 .input-group {
@@ -37,16 +37,22 @@ margin-bottom: 20px;
 display: block;
 margin-bottom: 5px;
 font-weight: 500;
-color: #495057;
+color: #555;
 }
 
 .input-group input {
 width: 100%;
-padding: 10px;
+padding: 12px;
 border: 1px solid #ced4da;
-border-radius: 6px;
+border-radius: 8px;
 font-size: 1rem;
-box-sizing: border-box; /* Important for padding */
+transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group input:focus {
+outline: none;
+border-color: #007bff;
+box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
 }
 
 .submit-btn {
@@ -55,7 +61,7 @@ padding: 12px;
 background-color: #007bff;
 color: white;
 border: none;
-border-radius: 6px;
+border-radius: 8px;
 font-size: 1rem;
 font-weight: 600;
 cursor: pointer;
@@ -66,24 +72,10 @@ transition: background-color 0.2s;
 background-color: #0056b3;
 }
 
-.error-message {
-color: #dc3545;
-text-align: center;
-margin-top: 15px;
-font-weight: 500;
-}
-
-.message.success {
-color: #28a745;
-text-align: center;
-margin-top: 15px;
-font-weight: 500;
-}
-
 .redirect-link {
 text-align: center;
 margin-top: 20px;
-color: #6c757d;
+color: #555;
 }
 
 .redirect-link a {
@@ -94,4 +86,29 @@ font-weight: 500;
 
 .redirect-link a:hover {
 text-decoration: underline;
+}
+
+/* --- NEW AND UPDATED STYLES FOR MESSAGES --- */
+
+/* Base style for all form messages */
+.form-message {
+padding: 12px;
+margin-top: 20px;
+border-radius: 8px;
+text-align: center;
+font-weight: 500;
+}
+
+/* Style for success messages (green) */
+.success-message {
+background-color: #d4edda;
+color: #155724;
+border: 1px solid #c3e6cb;
+}
+
+/* Style for error messages (red) */
+.error-message {
+background-color: #f8d7da;
+color: #721c24;
+border: 1px solid #f5c6cb;
 }
