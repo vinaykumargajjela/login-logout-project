@@ -8,9 +8,8 @@ The application allows users to register, log in, and maintain a persistent sess
 
 ## 🚀 Live Demo
 
-- **Frontend (Vercel):** [https://login-logout-project-1bgb.vercel.app/login] (https://login-logout-project-1bgb.vercel.app/login)
-- 
-- **Backend (Render):** [https://login-logout-project.onrender.com/](https://login-logout-project.onrender.com/)
+- **Frontend (Vercel):**  (https://login-logout-project-1bgb.vercel.app/login)
+- **Backend (Render):** (https://login-logout-project.onrender.com/)
 
 ---
 
