@@ -6,7 +6,6 @@ import Register from './components/Register';
 import Dashboard from './components/Dashboard';
 import './App.css';
 
-// This is the crucial change: Use the environment variable for the API URL
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 function App() {
@@ -14,10 +13,19 @@ function App() {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const handleLogout = async () => {
+        try {
+            await axios.post(`${API_URL}/api/auth/logout`, {}, { withCredentials: true });
+            setIsLoggedIn(false);
+            setUser(null);
+        } catch (error) {
+            console.error('Logout failed', error);
+        }
+    };
+
     useEffect(() => {
         const checkUserSession = async () => {
             try {
-                // Use the API_URL variable instead of a hard-coded string
                 const response = await axios.get(`${API_URL}/api/auth/check-session`, { withCredentials: true });
                 if (response.data.isLoggedIn) {
                     setIsLoggedIn(true);
@@ -37,13 +45,8 @@ function App() {
         setUser(loggedInUser);
     };
 
-    const handleLogout = () => {
-        setIsLoggedIn(false);
-        setUser(null);
-    };
-
     if (loading) {
-        return <div className="loading-container">Loading...</div>;
+        return <div className="loading-container">Authenticating...</div>;
     }
 
     return (
@@ -59,19 +62,19 @@ function App() {
                         {isLoggedIn && user && <li className="nav-user">Welcome, {user.email}</li>}
                         {isLoggedIn && (
                             <li>
-                                <Dashboard onLogout={handleLogout} />
+                                <button onClick={handleLogout} className="logout-button">Logout</button>
                             </li>
                         )}
                     </ul>
                 </nav>
 
-                <main className="content">
+                <main className="content-area">
                     <Routes>
-                        <Route path="/register" element={<Register />} />
-                        <Route path="/login" element={<Login onLoginSuccess={handleLogin} />} />
-                        <Route
-                            path="/dashboard"
-                            element={isLoggedIn ? <div className="dashboard-page"><h2>Dashboard Content</h2><p>You are logged in and can see this protected content.</p></div> : <Navigate to="/login" />}
+                        <Route path="/register" element={!isLoggedIn ? <Register /> : <Navigate to="/dashboard" />} />
+                        <Route path="/login" element={!isLoggedIn ? <Login onLoginSuccess={handleLogin} /> : <Navigate to="/dashboard" />} />
+                        <Route 
+                            path="/dashboard" 
+                            element={isLoggedIn ? <Dashboard user={user} /> : <Navigate to="/login" />} 
                         />
                         <Route path="/" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} />
                     </Routes>
