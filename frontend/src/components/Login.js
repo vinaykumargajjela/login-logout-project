@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './forms.css'; // Don't forget to import the shared form styles
+import { useNavigate, Link } from 'react-router-dom';
+import './forms.css';
+
+// This is the crucial change: Use the environment variable for the API URL
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 function Login({ onLoginSuccess }) {
     const [email, setEmail] = useState('');
@@ -11,9 +14,10 @@ function Login({ onLoginSuccess }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setMessage('');
         try {
-            // 'withCredentials: true' is crucial for sending the session cookie
-            const response = await axios.post('http://localhost:3001/api/auth/login', { email, password }, { withCredentials: true });
+            // Use the API_URL variable instead of a hard-coded string
+            const response = await axios.post(`${API_URL}/api/auth/login`, { email, password }, { withCredentials: true });
             
             // Call the function passed from App.js to update the global state
             onLoginSuccess(response.data.user); 
@@ -22,37 +26,41 @@ function Login({ onLoginSuccess }) {
             navigate('/dashboard');
         } catch (error) {
             // Display any error messages from the backend
-            setMessage(error.response.data.message || 'An error occurred.');
+            setMessage(error.response?.data?.message || 'An error occurred.');
         }
     };
 
     return (
         <div className="form-container">
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
+            <form className="auth-form" onSubmit={handleSubmit}>
+                <h2>Login</h2>
+                <p className="form-subtitle">Welcome back! Please enter your details.</p>
+                <div className="input-group">
+                    <label htmlFor="email">Email</label>
                     <input
                         type="email"
-                        className="form-input"
-                        placeholder="Email"
+                        id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </div>
-                <div className="form-group">
+                <div className="input-group">
+                    <label htmlFor="password">Password</label>
                     <input
                         type="password"
-                        className="form-input"
-                        placeholder="Password"
+                        id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
-                <button type="submit" className="form-button">Login</button>
+                <button type="submit" className="submit-btn">Sign In</button>
+                {message && <p className="error-message">{message}</p>}
+                <p className="redirect-link">
+                    Don't have an account? <Link to="/register">Sign Up</Link>
+                </p>
             </form>
-            {message && <p className="form-message error">{message}</p>}
         </div>
     );
 }

@@ -4,7 +4,10 @@ import axios from 'axios';
 import Login from './components/Login';
 import Register from './components/Register';
 import Dashboard from './components/Dashboard';
-import './App.css'; // <-- MAKE SURE THIS LINE IS HERE
+import './App.css';
+
+// This is the crucial change: Use the environment variable for the API URL
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,7 +17,8 @@ function App() {
     useEffect(() => {
         const checkUserSession = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/auth/check-session', { withCredentials: true });
+                // Use the API_URL variable instead of a hard-coded string
+                const response = await axios.get(`${API_URL}/api/auth/check-session`, { withCredentials: true });
                 if (response.data.isLoggedIn) {
                     setIsLoggedIn(true);
                     setUser(response.data.user);
@@ -39,27 +43,35 @@ function App() {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="loading-container">Loading...</div>;
     }
 
     return (
         <Router>
-            <div className="App">
+            <div className="app-container">
                 <nav className="navbar">
-                    <ul className="nav-list">
-                        {!isLoggedIn && <li><Link className="nav-link" to="/login">Login</Link></li>}
-                        {!isLoggedIn && <li><Link className="nav-link" to="/register">Register</Link></li>}
-                        {isLoggedIn && <li><Link className="nav-link" to="/dashboard">Dashboard</Link></li>}
+                    <div className="nav-logo">
+                        <Link to="/">AuthSystem</Link>
+                    </div>
+                    <ul className="nav-links">
+                        {!isLoggedIn && <li><Link to="/login">Login</Link></li>}
+                        {!isLoggedIn && <li><Link to="/register">Register</Link></li>}
+                        {isLoggedIn && user && <li className="nav-user">Welcome, {user.email}</li>}
+                        {isLoggedIn && (
+                            <li>
+                                <Dashboard onLogout={handleLogout} />
+                            </li>
+                        )}
                     </ul>
                 </nav>
 
-                <main>
+                <main className="content">
                     <Routes>
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login onLoginSuccess={handleLogin} />} />
-                        <Route 
-                            path="/dashboard" 
-                            element={isLoggedIn ? <Dashboard user={user} onLogout={handleLogout} /> : <Navigate to="/login" />} 
+                        <Route
+                            path="/dashboard"
+                            element={isLoggedIn ? <div className="dashboard-page"><h2>Dashboard Content</h2><p>You are logged in and can see this protected content.</p></div> : <Navigate to="/login" />}
                         />
                         <Route path="/" element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />} />
                     </Routes>
